@@ -22,13 +22,14 @@ export default function LoginPage() {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, role: userType }),
     });
 
     setIsLoading(false);
 
     if (!res.ok) {
-      alert("Invalid credentials");
+      const errorData = await res.json();
+      alert(errorData.error || "Invalid credentials");
       return;
     }
 
